@@ -1,6 +1,6 @@
 {
   "name": "@SANFY666/lol",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "🔐 Secure password generator with customizable options — by SANFY666",
   "main": "index.js",
   "bin": {
