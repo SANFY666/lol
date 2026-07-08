@@ -8,6 +8,7 @@
     "url": "https://github.com/SANFY666/lol.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
   }
 }
