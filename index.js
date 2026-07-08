@@ -1,23 +1,32 @@
-const jokes = [
-  "Чому програмісти люблять темну тему? — Тому що світло приваблює баги.",
-  "Скільки програмістів треба, щоб вкрутити лампочку? — Жодного, це hardware проблема.",
-  "Компіляція — це єдиний момент, коли комп'ютер знає краще за тебе.",
-  "-- Гугл, чому мій код не працює?\n-- Шановний, ваш код — це злочин проти інформатики.",
-  "Чому програмісти плутають Хелловін і Різдво? — Бо Oct 31 == Dec 25.",
-  "Найскладніший дебаг — це коли ти шукаєш проблему, а знаходиш свій старий код.",
-  "null — це не помилка, це відповідь на питання 'чи є в тебе друзі?'",
-  "Чому програміст пішов з життя? — Він забули поставити крапку з комою.",
-  "API — це коли одна програма просить іншу зробити роботу за неї. Як мій менеджер.",
-  "Як називається собака, який знає Java? — Бульдог.",
-  "Хто завжди правий? — git blame.",
-  "Помилка 418: Я чайник.",
-  "Чим відрізняється програміст від Бога? — Богу не треба дебажити.",
-  "Існує 10 типів людей: ті, хто розуміє двійковий код, і ті, хто ні.",
-  "Коли я писав цей код, тільки я і Бог знали, що він робить. Тепер тільки Бог.",
-];
+const crypto = require('crypto');
 
-module.exports = function lol() {
-  return jokes[Math.floor(Math.random() * jokes.length)];
-};
+function generate(options = {}) {
+  const length = options.length ?? 16;
+  const useSymbols = options.symbols ?? false;
+  const excludeSimilar = options.excludeSimilar ?? false;
 
-module.exports.jokes = jokes;
+  let lower = 'abcdefghijklmnopqrstuvwxyz';
+  let upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const digits = '0123456789';
+  const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+  if (excludeSimilar) {
+    lower = lower.replace(/[il]/g, '');
+    upper = upper.replace(/[IO]/g, '');
+  }
+
+  let pool = lower + upper + digits;
+  if (useSymbols) pool += symbols;
+
+  if (!pool) return '';
+
+  const bytes = crypto.randomBytes(length);
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    password += pool[bytes[i] % pool.length];
+  }
+
+  return password;
+}
+
+module.exports = generate;
